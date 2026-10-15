@@ -1,0 +1,223 @@
+{
+ "description": "Scripted conversations for the SARAL agent. Each turn lists the tool sets that count as a right decision (an empty set means answer directly). Long-length requests are excluded to keep a run cheap; limits and long outputs are covered by unit tests. A write may be followed by one redo with `fix` when the reviewer reports a requirement not met.",
+ "conversations": [
+  {
+   "id": "question-problem",
+   "deck": "bert",
+   "turns": [
+    {
+     "message": "What problem does this paper solve?",
+     "accept": [
+      []
+     ]
+    }
+   ]
+  },
+  {
+   "id": "explain-for-student",
+   "deck": "bert",
+   "turns": [
+    {
+     "message": "Explain masked language modelling like I'm a high-school student.",
+     "accept": [
+      []
+     ]
+    }
+   ]
+  },
+  {
+   "id": "script-edit-undo",
+   "deck": "bert",
+   "turns": [
+    {
+     "message": "Write a 90-second script for policymakers explaining why this work matters.",
+     "accept": [
+      [
+       "write_deliverable"
+      ],
+      [
+       "write_deliverable",
+       "write_deliverable"
+      ]
+     ],
+     "note": "a second write is one redo with `fix` when a check was not met"
+    },
+    {
+     "message": "Make the opening simpler.",
+     "accept": [
+      [
+       "edit_draft"
+      ]
+     ]
+    },
+    {
+     "message": "Undo that.",
+     "accept": [
+      [
+       "history"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "tweets-then-explain",
+   "deck": "resnet",
+   "turns": [
+    {
+     "message": "Create 5 tweet-sized abstracts for a general audience.",
+     "accept": [
+      [
+       "write_deliverable"
+      ],
+      [
+       "write_deliverable",
+       "write_deliverable"
+      ]
+     ],
+     "note": "a second write is one redo with `fix` when a check was not met"
+    },
+    {
+     "message": "Explain the second tweet in more detail.",
+     "accept": [
+      []
+     ]
+    }
+   ]
+  },
+  {
+   "id": "graduate-talk",
+   "deck": "attention",
+   "turns": [
+    {
+     "message": "Create a 5-slide talk for graduate students on the method, with a speaker note for each slide.",
+     "accept": [
+      [
+       "write_deliverable"
+      ],
+      [
+       "write_deliverable",
+       "write_deliverable"
+      ]
+     ],
+     "note": "a second write is one redo with `fix` when a check was not met"
+    }
+   ]
+  },
+  {
+   "id": "locate-bleu",
+   "deck": "attention",
+   "turns": [
+    {
+     "message": "Which slide mentions BLEU scores?",
+     "accept": [
+      [],
+      [
+       "find_in_deck"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "post-then-check",
+   "deck": "resnet",
+   "turns": [
+    {
+     "message": "Write a short LinkedIn post about this work.",
+     "accept": [
+      [
+       "write_deliverable"
+      ],
+      [
+       "write_deliverable",
+       "write_deliverable"
+      ]
+     ],
+     "note": "a second write is one redo with `fix` when a check was not met"
+    },
+    {
+     "message": "Is everything in it supported by the deck?",
+     "accept": [
+      [
+       "check_claims"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "preference-then-summary",
+   "deck": "bert",
+   "turns": [
+    {
+     "message": "Remember for everything: my audience is school teachers and keep things short.",
+     "accept": [
+      []
+     ]
+    },
+    {
+     "message": "Write a summary of the results.",
+     "accept": [
+      [
+       "write_deliverable"
+      ],
+      [
+       "write_deliverable",
+       "write_deliverable"
+      ]
+     ],
+     "note": "a second write is one redo with `fix` when a check was not met"
+    }
+   ]
+  },
+  {
+   "id": "edit-without-draft",
+   "deck": "bert",
+   "turns": [
+    {
+     "message": "Make #2 shorter.",
+     "accept": [
+      [],
+      [
+       "ask_user"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "off-topic",
+   "deck": "attention",
+   "turns": [
+    {
+     "message": "What's the weather like today?",
+     "accept": [
+      []
+     ]
+    }
+   ]
+  },
+  {
+   "id": "compound-request",
+   "deck": "resnet",
+   "turns": [
+    {
+     "message": "Write 3 tweets about the results, and then a LinkedIn post.",
+     "accept": [
+      [
+       "write_deliverable",
+       "write_deliverable"
+      ],
+      [
+       "write_deliverable",
+       "write_deliverable",
+       "write_deliverable"
+      ]
+     ],
+     "note": "a third write is one redo with `fix` when a requirement was judged not met"
+    }
+   ]
+  }
+ ]
+}

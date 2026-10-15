@@ -1,0 +1,11 @@
+*
+!backend
+!web
+!pyproject.toml
+!uv.lock
+!.python-version
+**/__pycache__
+**/*.pyc
+web/node_modules
+web/dist
+web/*.tsbuildinfo

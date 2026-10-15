@@ -1,0 +1,1410 @@
+{
+ "description": "The 16-turn conversation set run through each orchestrator with the same writer (gemini-3.5-flash-lite) and checker (gemini-3.1-flash-lite). The pipeline was measured on 2026-10-14 just before it was replaced.",
+ "rows": [
+  {
+   "name": "Agent, gemini-3.5-flash-lite (default)",
+   "right_tools": "16 of 16",
+   "first_output": "1.6 s (streamed)",
+   "latency": "8.8 s / 17.4 s",
+   "drafts_saved": "8 of 8",
+   "run_at": "2026-10-14T13:28:28+00:00"
+  },
+  {
+   "name": "Agent, gemini-3.5-flash",
+   "right_tools": "16 of 16",
+   "first_output": "1.5 s (streamed)",
+   "latency": "10.9 s / 22.4 s",
+   "drafts_saved": "7 of 8",
+   "run_at": "2026-10-14T13:21:57+00:00"
+  },
+  {
+   "name": "Plan-and-execute pipeline (removed)",
+   "right_tools": "16 of 16",
+   "first_output": "11.2 s (no streaming: nothing until done)",
+   "latency": "11.2 s / 17.9 s",
+   "drafts_saved": "6 of 7 (1 system failure)",
+   "run_at": "2026-10-14T15:46:43+00:00"
+  }
+ ],
+ "reading": "Both orchestrators chose the right action on every turn of this set, so routing accuracy did not decide the switch. The agent shows its first words in about 1.6 s instead of a blank screen for about 11 s, is faster per turn, saved every requested draft, and can react to a tool result (redo a draft whose requirement was missed, ask when \"#2\" is ambiguous mid-turn), which a one-shot plan cannot. One run each: small differences are within run-to-run variation.",
+ "runs": {
+  "agent_eval_gemini-3.5-flash-lite.json": {
+   "summary": {
+    "turns": 16,
+    "right_tools": 16,
+    "errors": 0,
+    "first_token_ms_median_direct_answers": 1587.0,
+    "latency_ms_median": 8812.0,
+    "latency_ms_p95": 17354,
+    "model_calls_mean": 1.69,
+    "input_tokens_mean": 5091,
+    "output_tokens_mean": 416,
+    "deliverables_saved": 8,
+    "deliverables": 8,
+    "deliverable_claims_supported": "41 of 41",
+    "answers_passing_check": "5 of 6",
+    "tool_misses": []
+   },
+   "run_at": "2026-10-14T13:28:28+00:00",
+   "turns": [
+    {
+     "message": "What problem does this paper solve?",
+     "artifacts": [],
+     "text": "Traditional language models process text in a single direction (left-to-right), which restricts the context available for each token and hinders performance on tasks requiring full contextual understanding [S3, S4, S5, S7]. BERT solves this limitation by introducing a pre-training approach that learns deep bidirectional representations using both left and right context [S6, S11].",
+     "answer_check": {
+      "claims": 2,
+      "claims_supported": 2,
+      "explanations": 0,
+      "explanations_accepted": 0,
+      "passed": true,
+      "issues": []
+     },
+     "first_token_ms": 2186,
+     "latency_ms": 4944,
+     "model_calls": 1,
+     "input_tokens": 2460,
+     "output_tokens": 282,
+     "wall_ms": 4976,
+     "tools": [],
+     "decision": [],
+     "conversation": "question-problem",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      []
+     ]
+    },
+    {
+     "message": "Explain masked language modelling like I'm a high-school student.",
+     "artifacts": [],
+     "text": "Imagine teaching a computer to read by having it play a giant game of \"fill-in-the-blank.\" That is essentially what Masked Language Modeling is. \n\nWhen BERT is being trained, it takes a sentence and hides—or \"masks\"—about fifteen percent of the words [S10]. The computer's job is to look at the surrounding text and figure out what the missing word should be. \n\nThe clever part is how it looks at the sentence. Older models could only read text from left to right, meaning they could only use the words *before* the blank to guess the answer. BERT looks at the words from **both the left and the right** context at the same time [S3, S11]. By looking in both directions, it gets a much better understanding of how words actually work together in a sentence.",
+     "answer_check": {
+      "claims": 2,
+      "claims_supported": 2,
+      "explanations": 5,
+      "explanations_accepted": 5,
+      "passed": true,
+      "issues": []
+     },
+     "first_token_ms": 2058,
+     "latency_ms": 5969,
+     "model_calls": 1,
+     "input_tokens": 2467,
+     "output_tokens": 475,
+     "wall_ms": 6011,
+     "tools": [],
+     "decision": [],
+     "conversation": "explain-for-student",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      []
+     ]
+    },
+    {
+     "message": "Write a 90-second script for policymakers explaining why this work matters.",
+     "artifacts": [
+      {
+       "tool": "write_deliverable",
+       "status": "succeeded",
+       "claims": 4,
+       "claims_supported": 4,
+       "limits": [
+        {
+         "quote": "90-second",
+         "measured": "167 spoken words (about 67 seconds)",
+         "met": false
+        }
+       ]
+      }
+     ],
+     "text": "Writing a 90-second script for policymakers.\n\nI have written the script for policymakers. It runs about 67 seconds, short of the 90 you asked for (167 words against a target of around 225). Would you like me to expand it so it reaches the full 90 seconds?",
+     "first_token_ms": 1692,
+     "latency_ms": 17065,
+     "model_calls": 2,
+     "input_tokens": 5318,
+     "output_tokens": 358,
+     "wall_ms": 17171,
+     "tools": [
+      "write_deliverable"
+     ],
+     "decision": [
+      "write_deliverable"
+     ],
+     "conversation": "script-edit-undo",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      [
+       "write_deliverable"
+      ]
+     ]
+    },
+    {
+     "message": "Make the opening simpler.",
+     "artifacts": [
+      {
+       "tool": "edit_draft",
+       "status": "succeeded",
+       "claims": 0,
+       "claims_supported": 0,
+       "limits": [
+        {
+         "quote": "90-second",
+         "measured": "168 spoken words (about 67 seconds)",
+         "met": false
+        }
+       ]
+      }
+     ],
+     "text": "Simplifying the opening of the script.\n\nI simplified the opening introduction. It currently runs about 67 seconds, still short of the 90-second target, so let me know if you would like me to expand it further.",
+     "first_token_ms": 1746,
+     "latency_ms": 8945,
+     "model_calls": 2,
+     "input_tokens": 7314,
+     "output_tokens": 290,
+     "wall_ms": 9033,
+     "tools": [
+      "edit_draft"
+     ],
+     "decision": [
+      "edit_draft"
+     ],
+     "conversation": "script-edit-undo",
+     "turn": 2,
+     "right_tools": true,
+     "accepted": [
+      [
+       "edit_draft"
+      ]
+     ]
+    },
+    {
+     "message": "Undo that.",
+     "artifacts": [
+      {
+       "tool": "history",
+       "status": "succeeded",
+       "claims": 0,
+       "claims_supported": 0,
+       "limits": []
+      }
+     ],
+     "text": "Undoing the last change.\n\nI undid the change, returning the script to its previous version. It runs about 67 seconds, short of the 90 you asked for, and is ready for further adjustments.",
+     "first_token_ms": 1567,
+     "latency_ms": 2721,
+     "model_calls": 2,
+     "input_tokens": 7962,
+     "output_tokens": 145,
+     "wall_ms": 2767,
+     "tools": [
+      "history"
+     ],
+     "decision": [
+      "history"
+     ],
+     "conversation": "script-edit-undo",
+     "turn": 3,
+     "right_tools": true,
+     "accepted": [
+      [
+       "history"
+      ]
+     ]
+    },
+    {
+     "message": "Create 5 tweet-sized abstracts for a general audience.",
+     "artifacts": [
+      {
+       "tool": "write_deliverable",
+       "status": "succeeded",
+       "claims": 5,
+       "claims_supported": 5,
+       "limits": [
+        {
+         "quote": "5 tweet-sized abstracts",
+         "measured": "5 items",
+         "met": true
+        }
+       ]
+      }
+     ],
+     "text": "Writing 5 tweet-sized abstracts for a general audience.\n\nI have written 5 tweet-sized abstracts for a general audience, and all 5 items successfully met the requested format limits. Let me know if you would like to refine any of the tweets or create a different deliverable.",
+     "first_token_ms": 2129,
+     "latency_ms": 14213,
+     "model_calls": 2,
+     "input_tokens": 5478,
+     "output_tokens": 536,
+     "wall_ms": 14302,
+     "tools": [
+      "write_deliverable"
+     ],
+     "decision": [
+      "write_deliverable"
+     ],
+     "conversation": "tweets-then-explain",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      [
+       "write_deliverable"
+      ]
+     ]
+    },
+    {
+     "message": "Explain the second tweet in more detail.",
+     "artifacts": [],
+     "text": "In traditional deep neural networks, every layer has to pass its entire output through the next layer, completely transforming the data at each step [S7, S8]. When networks become very deep, this continuous transformation makes the network hard to optimize. \n\nThe authors solved this by introducing **identity shortcut connections** [S9]. Instead of forcing every layer to learn the full underlying mapping from scratch, these shortcuts simply add the original input ($x$) directly to the output of the stacked layers ($F(x) + x$) [S8, S9]. Because these shortcuts are just direct connections (identity mappings), they introduce zero extra parameters and add no computational complexity to the model [S9], making extremely deep networks practical to train.",
+     "answer_check": {
+      "claims": 4,
+      "claims_supported": 3,
+      "explanations": 1,
+      "explanations_accepted": 1,
+      "passed": false,
+      "issues": [
+       "unsupported: The cited evidence mentions residual learning reformulates layers with identity shortcuts, but it does not explicitly state that traditional networks pass their entire output through the next layer or that they completely transform data at each step."
+      ]
+     },
+     "first_token_ms": 2049,
+     "latency_ms": 6022,
+     "model_calls": 1,
+     "input_tokens": 4001,
+     "output_tokens": 366,
+     "wall_ms": 6060,
+     "tools": [],
+     "decision": [],
+     "conversation": "tweets-then-explain",
+     "turn": 2,
+     "right_tools": true,
+     "accepted": [
+      []
+     ]
+    },
+    {
+     "message": "Create a 5-slide talk for graduate students on the method, with a speaker note for each slide.",
+     "artifacts": [
+      {
+       "tool": "write_deliverable",
+       "status": "succeeded",
+       "claims": 13,
+       "claims_supported": 13,
+       "limits": [
+        {
+         "quote": "5-slide",
+         "measured": "5 items",
+         "met": true
+        }
+       ]
+      }
+     ],
+     "text": "Writing a 5-slide talk on the method for graduate students.\n\nI have created the 5-slide talk on the Transformer method, and all 5 slides were successfully generated and met the item count limit. \n\nWould you like to refine the speaker notes or focus on a specific aspect of the architecture?",
+     "first_token_ms": 1802,
+     "latency_ms": 17232,
+     "model_calls": 2,
+     "input_tokens": 5475,
+     "output_tokens": 428,
+     "wall_ms": 17307,
+     "tools": [
+      "write_deliverable"
+     ],
+     "decision": [
+      "write_deliverable"
+     ],
+     "conversation": "graduate-talk",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      [
+       "write_deliverable"
+      ]
+     ]
+    },
+    {
+     "message": "Which slide mentions BLEU scores?",
+     "artifacts": [],
+     "text": "Slide 4 mentions the BLEU scores achieved by the Transformer on the WMT 2014 translation tasks [S15, S16, S18].",
+     "answer_check": {
+      "claims": 1,
+      "claims_supported": 1,
+      "explanations": 0,
+      "explanations_accepted": 0,
+      "passed": true,
+      "issues": []
+     },
+     "first_token_ms": 1099,
+     "latency_ms": 3615,
+     "model_calls": 1,
+     "input_tokens": 2488,
+     "output_tokens": 36,
+     "wall_ms": 3641,
+     "tools": [],
+     "decision": [],
+     "conversation": "locate-bleu",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      [],
+      [
+       "find_in_deck"
+      ]
+     ]
+    },
+    {
+     "message": "Write a short LinkedIn post about this work.",
+     "artifacts": [
+      {
+       "tool": "write_deliverable",
+       "status": "succeeded",
+       "claims": 4,
+       "claims_supported": 4,
+       "limits": []
+      }
+     ],
+     "text": "Writing a short LinkedIn post about the ResNet paper.\n\nI've drafted a short LinkedIn post highlighting how residual learning solves optimization degradation in deep networks [S6]. Let me know if you would like any adjustments to the tone or length!",
+     "answer_check": {
+      "claims": 1,
+      "claims_supported": 1,
+      "explanations": 0,
+      "explanations_accepted": 0,
+      "passed": true,
+      "issues": []
+     },
+     "first_token_ms": 2275,
+     "latency_ms": 13701,
+     "model_calls": 2,
+     "input_tokens": 5430,
+     "output_tokens": 489,
+     "wall_ms": 13752,
+     "tools": [
+      "write_deliverable"
+     ],
+     "decision": [
+      "write_deliverable"
+     ],
+     "conversation": "post-then-check",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      [
+       "write_deliverable"
+      ]
+     ]
+    },
+    {
+     "message": "Is everything in it supported by the deck?",
+     "artifacts": [],
+     "text": "Yes, the check confirms that all four claims in the draft are fully supported by the deck [S4, S6, S8, S9, S10]. Would you like to create another piece of content, such as a brief summary or a slide outline?",
+     "answer_check": {
+      "claims": 1,
+      "claims_supported": 1,
+      "explanations": 0,
+      "explanations_accepted": 0,
+      "passed": true,
+      "issues": []
+     },
+     "first_token_ms": 5716,
+     "latency_ms": 8679,
+     "model_calls": 2,
+     "input_tokens": 7179,
+     "output_tokens": 324,
+     "wall_ms": 8723,
+     "tools": [
+      "check_claims"
+     ],
+     "decision": [
+      "check_claims"
+     ],
+     "conversation": "post-then-check",
+     "turn": 2,
+     "right_tools": true,
+     "accepted": [
+      [
+       "check_claims"
+      ]
+     ]
+    },
+    {
+     "message": "Remember for everything: my audience is school teachers and keep things short.",
+     "artifacts": [],
+     "text": "I have noted your preferences for school teachers and keeping things short, and I will apply them to everything moving forward.",
+     "first_token_ms": 1125,
+     "latency_ms": 1269,
+     "model_calls": 1,
+     "input_tokens": 2467,
+     "output_tokens": 83,
+     "wall_ms": 1314,
+     "tools": [],
+     "decision": [],
+     "conversation": "preference-then-summary",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      []
+     ]
+    },
+    {
+     "message": "Write a summary of the results.",
+     "artifacts": [
+      {
+       "tool": "write_deliverable",
+       "status": "succeeded",
+       "claims": 4,
+       "claims_supported": 4,
+       "limits": []
+      }
+     ],
+     "text": "I am writing a summary of the results for school teachers.\n\nI have created a short summary of the results tailored for school teachers, and all claims are fully supported by the deck. Let me know if you would like any adjustments or want to create another deliverable!",
+     "first_token_ms": 1807,
+     "latency_ms": 17354,
+     "model_calls": 2,
+     "input_tokens": 5466,
+     "output_tokens": 527,
+     "wall_ms": 17404,
+     "tools": [
+      "write_deliverable"
+     ],
+     "decision": [
+      "write_deliverable"
+     ],
+     "conversation": "preference-then-summary",
+     "turn": 2,
+     "right_tools": true,
+     "accepted": [
+      [
+       "write_deliverable"
+      ]
+     ]
+    },
+    {
+     "message": "Make #2 shorter.",
+     "artifacts": [
+      {
+       "tool": "write_deliverable",
+       "status": "succeeded",
+       "claims": 2,
+       "claims_supported": 2,
+       "limits": []
+      }
+     ],
+     "text": "I am writing a short summary of Slide 2.\n\nI've created a short summary of Slide 2 based on the deck. Would you like me to edit or tighten it further based on the reviewer's note about redundancy?",
+     "question": "There is no current draft yet. Did you mean Slide 2 of the deck?",
+     "first_token_ms": 1980,
+     "latency_ms": 11399,
+     "model_calls": 2,
+     "input_tokens": 5891,
+     "output_tokens": 581,
+     "wall_ms": 12940,
+     "tools": [
+      "ask_user",
+      "write_deliverable"
+     ],
+     "decision": [
+      "ask_user"
+     ],
+     "conversation": "edit-without-draft",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      [],
+      [
+       "ask_user"
+      ]
+     ]
+    },
+    {
+     "message": "What's the weather like today?",
+     "artifacts": [],
+     "text": "I am not connected to the internet or weather services, so I cannot check the weather for you. I can, however, answer any questions about the Transformer model and the \"Attention Is All You Need\" paper!",
+     "answer_check": {
+      "claims": 0,
+      "claims_supported": 0,
+      "explanations": 2,
+      "explanations_accepted": 2,
+      "passed": true,
+      "issues": []
+     },
+     "first_token_ms": 1086,
+     "latency_ms": 3861,
+     "model_calls": 1,
+     "input_tokens": 2489,
+     "output_tokens": 100,
+     "wall_ms": 3894,
+     "tools": [],
+     "decision": [],
+     "conversation": "off-topic",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      []
+     ]
+    },
+    {
+     "message": "Write 3 tweets about the results, and then a LinkedIn post.",
+     "artifacts": [
+      {
+       "tool": "write_deliverable",
+       "status": "succeeded",
+       "claims": 3,
+       "claims_supported": 3,
+       "limits": [
+        {
+         "quote": "3 tweets",
+         "measured": "3 items",
+         "met": true
+        }
+       ]
+      },
+      {
+       "tool": "write_deliverable",
+       "status": "succeeded",
+       "claims": 6,
+       "claims_supported": 6,
+       "limits": []
+      }
+     ],
+     "text": "I am writing 3 tweets about the results and a LinkedIn post.\n\nNow I am writing a LinkedIn post about the paper.\n\nI have written the LinkedIn post as requested. The claims are fully supported by the deck [S4, S5, S6, S10, S14]. Would you like to make any adjustments to it?",
+     "answer_check": {
+      "claims": 1,
+      "claims_supported": 1,
+      "explanations": 0,
+      "explanations_accepted": 0,
+      "passed": true,
+      "issues": []
+     },
+     "first_token_ms": 3302,
+     "latency_ms": 26976,
+     "model_calls": 3,
+     "input_tokens": 9571,
+     "output_tokens": 1640,
+     "wall_ms": 27071,
+     "tools": [
+      "write_deliverable",
+      "write_deliverable"
+     ],
+     "decision": [
+      "write_deliverable",
+      "write_deliverable"
+     ],
+     "conversation": "compound-request",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      [
+       "write_deliverable",
+       "write_deliverable"
+      ]
+     ]
+    }
+   ]
+  },
+  "agent_eval_gemini-3.5-flash.json": {
+   "summary": {
+    "turns": 16,
+    "right_tools": 16,
+    "errors": 0,
+    "first_token_ms_median_direct_answers": 1475.0,
+    "latency_ms_median": 10898.0,
+    "latency_ms_p95": 22394,
+    "model_calls_mean": 1.69,
+    "input_tokens_mean": 4952,
+    "output_tokens_mean": 315,
+    "deliverables_saved": 7,
+    "deliverables": 8,
+    "deliverable_claims_supported": "51 of 52",
+    "answers_passing_check": "6 of 6",
+    "tool_misses": []
+   },
+   "run_at": "2026-10-14T13:21:57+00:00",
+   "turns": [
+    {
+     "message": "What problem does this paper solve?",
+     "artifacts": [],
+     "text": "Traditional language models process text unidirectionally (left-to-right), which restricts context for each token and hinders performance on tasks requiring full contextual understanding [S4, S5, S7]. BERT solves this by introducing a deep bidirectional pre-training approach using a masked language model and next sentence prediction, allowing the model to incorporate both left and right context simultaneously [S6, S8, S11]. This eliminates the need for complex, task-specific architectures by allowing a single pre-trained model to generalize across diverse NLP tasks [S28, S30].",
+     "answer_check": {
+      "claims": 3,
+      "claims_supported": 3,
+      "explanations": 0,
+      "explanations_accepted": 0,
+      "passed": true,
+      "issues": []
+     },
+     "first_token_ms": 1436,
+     "latency_ms": 4751,
+     "model_calls": 1,
+     "input_tokens": 2460,
+     "output_tokens": 118,
+     "wall_ms": 4779,
+     "tools": [],
+     "decision": [],
+     "conversation": "question-problem",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      []
+     ]
+    },
+    {
+     "message": "Explain masked language modelling like I'm a high-school student.",
+     "artifacts": [],
+     "text": "Imagine reading a sentence in a textbook where someone took a black marker and covered up a few words. To figure out what the hidden words are, you couldn't just look at the words that came *before* the blacked-out spot—you would naturally look at the words *after* it, too, using the full sentence to make your best guess.\n\nThat is essentially how **masked language modeling** works! \n\nIn traditional AI language models, the computer is trained by trying to predict the very next word in a sentence from left to right, like typing with autocomplete on your phone [S4]. \n\nBERT does something different:\n- During training, it randomly covers up (or \"masks\") about 15% of the words in a sentence [S10].\n- It then looks at the context on **both sides**—to the left and to the right—to predict what those missing words are [S11].\n\nBy learning to fill in these blanks using the entire context around a word, the model gets a much deeper understanding of how sentences work and what words mean in different situations [S6, S11].",
+     "answer_check": {
+      "claims": 4,
+      "claims_supported": 4,
+      "explanations": 4,
+      "explanations_accepted": 4,
+      "passed": true,
+      "issues": []
+     },
+     "first_token_ms": 1386,
+     "latency_ms": 6853,
+     "model_calls": 1,
+     "input_tokens": 2467,
+     "output_tokens": 238,
+     "wall_ms": 6891,
+     "tools": [],
+     "decision": [],
+     "conversation": "explain-for-student",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      []
+     ]
+    },
+    {
+     "message": "Write a 90-second script for policymakers explaining why this work matters.",
+     "artifacts": [
+      {
+       "tool": "write_deliverable",
+       "status": "succeeded",
+       "claims": 4,
+       "claims_supported": 4,
+       "limits": [
+        {
+         "quote": "90-second",
+         "measured": "213 spoken words (about 85 seconds)",
+         "met": true
+        }
+       ]
+      }
+     ],
+     "text": "I am writing a 90-second script for policymakers on why this work matters.\n\nI have written the 90-second script for policymakers explaining the significance of BERT. The script runs for about 85 seconds (213 words), which meets your 90-second target, and all claims are supported by the deck. \n\nWould you like to adjust any part of the script or adapt it for a different audience?",
+     "first_token_ms": 2861,
+     "latency_ms": 23204,
+     "model_calls": 2,
+     "input_tokens": 5243,
+     "output_tokens": 280,
+     "wall_ms": 23280,
+     "tools": [
+      "write_deliverable"
+     ],
+     "decision": [
+      "write_deliverable"
+     ],
+     "conversation": "script-edit-undo",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      [
+       "write_deliverable"
+      ]
+     ]
+    },
+    {
+     "message": "Make the opening simpler.",
+     "artifacts": [
+      {
+       "tool": "edit_draft",
+       "status": "succeeded",
+       "claims": 0,
+       "claims_supported": 0,
+       "limits": [
+        {
+         "quote": "90-second",
+         "measured": "190 spoken words (about 76 seconds)",
+         "met": false
+        }
+       ]
+      }
+     ],
+     "text": "I am editing the script's opening to make it simpler.\n\nI have simplified the opening unit of the script. The script now runs about 76 seconds (190 words), which is short of the 90 seconds you asked for.\n\nWould you like me to expand another section to bring the total length closer to 90 seconds, or refine anything else?",
+     "first_token_ms": 1856,
+     "latency_ms": 9694,
+     "model_calls": 2,
+     "input_tokens": 7010,
+     "output_tokens": 194,
+     "wall_ms": 9758,
+     "tools": [
+      "edit_draft"
+     ],
+     "decision": [
+      "edit_draft"
+     ],
+     "conversation": "script-edit-undo",
+     "turn": 2,
+     "right_tools": true,
+     "accepted": [
+      [
+       "edit_draft"
+      ]
+     ]
+    },
+    {
+     "message": "Undo that.",
+     "artifacts": [
+      {
+       "tool": "history",
+       "status": "succeeded",
+       "claims": 0,
+       "claims_supported": 0,
+       "limits": []
+      }
+     ],
+     "text": "I am undoing the previous edit to restore the earlier draft.\n\nI have restored the previous version of the script. It is back to running about 85 seconds (213 words), meeting your 90-second limit.\n\nHow would you like to proceed?",
+     "first_token_ms": 1939,
+     "latency_ms": 3816,
+     "model_calls": 2,
+     "input_tokens": 7467,
+     "output_tokens": 113,
+     "wall_ms": 3862,
+     "tools": [
+      "history"
+     ],
+     "decision": [
+      "history"
+     ],
+     "conversation": "script-edit-undo",
+     "turn": 3,
+     "right_tools": true,
+     "accepted": [
+      [
+       "history"
+      ]
+     ]
+    },
+    {
+     "message": "Create 5 tweet-sized abstracts for a general audience.",
+     "artifacts": [
+      {
+       "tool": "write_deliverable",
+       "status": "succeeded",
+       "claims": 4,
+       "claims_supported": 4,
+       "limits": [
+        {
+         "quote": "5",
+         "measured": "5 items",
+         "met": true
+        },
+        {
+         "quote": "tweet-sized",
+         "measured": "every item within the limit (largest: 196 characters)",
+         "met": true
+        }
+       ]
+      }
+     ],
+     "text": "I am writing 5 tweet-sized abstracts for a general audience.\n\nI have created 5 tweet-sized abstracts for a general audience and saved them as a draft. All 5 tweets were measured and met the character limits, with full claim support from the deck. You can review the draft on screen or let me know if you would like to adjust the tone or focus.",
+     "first_token_ms": 3073,
+     "latency_ms": 12793,
+     "model_calls": 2,
+     "input_tokens": 5530,
+     "output_tokens": 502,
+     "wall_ms": 12841,
+     "tools": [
+      "write_deliverable"
+     ],
+     "decision": [
+      "write_deliverable"
+     ],
+     "conversation": "tweets-then-explain",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      [
+       "write_deliverable"
+      ]
+     ]
+    },
+    {
+     "message": "Explain the second tweet in more detail.",
+     "artifacts": [],
+     "text": "The second tweet focuses on the core mechanism introduced in the paper: residual learning and identity shortcut connections [S7].\n\nIn traditional deep networks, stacked layers attempt to directly learn a complex underlying target function from their input [S8]. As networks grow deeper, optimizing these layers directly becomes very difficult [S6, S16].\n\nTo solve this, residual learning changes what the layers are asked to learn [S7, S8]. Instead of fitting the full target function H(x), the stacked layers learn a residual function, F(x) = H(x) - x [S8]. An identity shortcut connection then passes the original input x directly forward and adds it to the layer output F(x) [S9].\n\nThis technique brings key benefits:\n- Identity shortcuts perform simple addition, requiring zero extra parameters or extra computational complexity [S9].\n- Learning residual functions eases optimization by driving weights towards zero, resulting in smaller responses that are easier to train [S15, S18, S19].",
+     "answer_check": {
+      "claims": 8,
+      "claims_supported": 8,
+      "explanations": 1,
+      "explanations_accepted": 1,
+      "passed": true,
+      "issues": []
+     },
+     "first_token_ms": 4449,
+     "latency_ms": 9346,
+     "model_calls": 1,
+     "input_tokens": 3622,
+     "output_tokens": 795,
+     "wall_ms": 9388,
+     "tools": [],
+     "decision": [],
+     "conversation": "tweets-then-explain",
+     "turn": 2,
+     "right_tools": true,
+     "accepted": [
+      []
+     ]
+    },
+    {
+     "message": "Create a 5-slide talk for graduate students on the method, with a speaker note for each slide.",
+     "artifacts": [
+      {
+       "tool": "write_deliverable",
+       "status": "succeeded",
+       "claims": 26,
+       "claims_supported": 26,
+       "limits": [
+        {
+         "quote": "5-slide",
+         "measured": "5 items",
+         "met": true
+        }
+       ]
+      }
+     ],
+     "text": "Creating a 5-slide talk on the Transformer method for graduate students.\n\nI have created the 5-slide talk focusing on the Transformer method and included speaker notes for each slide. \n\nAll 26 claims are supported by the deck, and the 5-slide requirement was met. Would you like to revise any specific slide or adjust the focus for your audience?",
+     "first_token_ms": 3094,
+     "latency_ms": 22376,
+     "model_calls": 2,
+     "input_tokens": 5433,
+     "output_tokens": 386,
+     "wall_ms": 22463,
+     "tools": [
+      "write_deliverable"
+     ],
+     "decision": [
+      "write_deliverable"
+     ],
+     "conversation": "graduate-talk",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      [
+       "write_deliverable"
+      ]
+     ]
+    },
+    {
+     "message": "Which slide mentions BLEU scores?",
+     "artifacts": [],
+     "text": "Slide 4 mentions the Transformer's BLEU scores [S15], including achieving 28.4 BLEU on WMT 2014 English-to-German [S16] and 41.8 BLEU on WMT 2014 English-to-French [S18]. Slide 6 also notes achieving state-of-the-art results on WMT 2014 tasks [S30].",
+     "answer_check": {
+      "claims": 2,
+      "claims_supported": 2,
+      "explanations": 0,
+      "explanations_accepted": 0,
+      "passed": true,
+      "issues": []
+     },
+     "first_token_ms": 1514,
+     "latency_ms": 5117,
+     "model_calls": 1,
+     "input_tokens": 2488,
+     "output_tokens": 97,
+     "wall_ms": 5146,
+     "tools": [],
+     "decision": [],
+     "conversation": "locate-bleu",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      [],
+      [
+       "find_in_deck"
+      ]
+     ]
+    },
+    {
+     "message": "Write a short LinkedIn post about this work.",
+     "artifacts": [
+      {
+       "tool": "write_deliverable",
+       "status": "succeeded",
+       "claims": 4,
+       "claims_supported": 4,
+       "limits": []
+      }
+     ],
+     "text": "I will write a short LinkedIn post about this work.\n\nI have written and saved a short LinkedIn post highlighting the core insights of ResNets and their results. All claims have been verified against the paper's deck. If you would like to adapt the tone, target a specific audience, or adjust the length, let me know!",
+     "first_token_ms": 2917,
+     "latency_ms": 12102,
+     "model_calls": 2,
+     "input_tokens": 5318,
+     "output_tokens": 335,
+     "wall_ms": 12147,
+     "tools": [
+      "write_deliverable"
+     ],
+     "decision": [
+      "write_deliverable"
+     ],
+     "conversation": "post-then-check",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      [
+       "write_deliverable"
+      ]
+     ]
+    },
+    {
+     "message": "Is everything in it supported by the deck?",
+     "artifacts": [],
+     "text": "Yes, all four key claims in the post are fully supported by the deck:\n\n- **Accuracy degradation vs. overfitting**: As network depth increases, accuracy saturates and then degrades due to optimization difficulty rather than overfitting [S5, S6].\n- **Residual learning framework**: Kaiming He et al. introduced identity shortcut connections where layers learn residual functions $F(x) = H(x) - x$ [S8].\n- **No extra complexity**: Identity shortcut connections add layer inputs directly to the output without adding extra parameters or computational complexity [S9].\n- **ILSVRC 2015 victory**: An ensemble of ResNets achieved a 3.57% top-5 error on ImageNet, winning first place in the ILSVRC 2015 classification task [S13, S14].",
+     "answer_check": {
+      "claims": 4,
+      "claims_supported": 4,
+      "explanations": 0,
+      "explanations_accepted": 0,
+      "passed": true,
+      "issues": []
+     },
+     "first_token_ms": 10233,
+     "latency_ms": 14013,
+     "model_calls": 2,
+     "input_tokens": 6753,
+     "output_tokens": 317,
+     "wall_ms": 14059,
+     "tools": [
+      "check_claims"
+     ],
+     "decision": [
+      "check_claims"
+     ],
+     "conversation": "post-then-check",
+     "turn": 2,
+     "right_tools": true,
+     "accepted": [
+      [
+       "check_claims"
+      ]
+     ]
+    },
+    {
+     "message": "Remember for everything: my audience is school teachers and keep things short.",
+     "artifacts": [],
+     "text": "Understood, I will keep all future responses and content brief and tailored for an audience of school teachers.",
+     "first_token_ms": 2002,
+     "latency_ms": 2241,
+     "model_calls": 1,
+     "input_tokens": 2467,
+     "output_tokens": 85,
+     "wall_ms": 2267,
+     "tools": [],
+     "decision": [],
+     "conversation": "preference-then-summary",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      []
+     ]
+    },
+    {
+     "message": "Write a summary of the results.",
+     "artifacts": [
+      {
+       "tool": "write_deliverable",
+       "status": "succeeded",
+       "claims": 4,
+       "claims_supported": 4,
+       "limits": []
+      }
+     ],
+     "text": "I am writing a short summary of the results tailored for school teachers.\n\nThe summary of the results tailored for school teachers has been written and saved. All four key claims are fully supported by the paper. As a next step, we could create a brief presentation slide deck or a quick script based on this summary.",
+     "first_token_ms": 3295,
+     "latency_ms": 12993,
+     "model_calls": 2,
+     "input_tokens": 5607,
+     "output_tokens": 450,
+     "wall_ms": 13035,
+     "tools": [
+      "write_deliverable"
+     ],
+     "decision": [
+      "write_deliverable"
+     ],
+     "conversation": "preference-then-summary",
+     "turn": 2,
+     "right_tools": true,
+     "accepted": [
+      [
+       "write_deliverable"
+      ]
+     ]
+    },
+    {
+     "message": "Make #2 shorter.",
+     "artifacts": [
+      {
+       "tool": "write_deliverable",
+       "status": "blocked",
+       "claims": 2,
+       "claims_supported": 1,
+       "limits": []
+      }
+     ],
+     "text": "I am writing a concise summary of Slide 2.\n\nThe shortened draft for Slide 2 could not be saved because some of the phrasing wasn't fully supported by the exact wording in the deck. I can write a short, direct summary based strictly on Slide 2's bullet points in chat, or create a revised draft focusing on its main points. Which would you prefer?",
+     "question": "There is no draft saved yet. Do you mean Slide 2 of the deck, or are you referring to a deliverable draft?",
+     "first_token_ms": 3413,
+     "latency_ms": 16224,
+     "model_calls": 2,
+     "input_tokens": 6104,
+     "output_tokens": 538,
+     "wall_ms": 19284,
+     "tools": [
+      "ask_user",
+      "write_deliverable"
+     ],
+     "decision": [
+      "ask_user"
+     ],
+     "conversation": "edit-without-draft",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      [],
+      [
+       "ask_user"
+      ]
+     ]
+    },
+    {
+     "message": "What's the weather like today?",
+     "artifacts": [],
+     "text": "I don't have access to real-time weather information. I can only help answer questions about the paper or create summaries, scripts, slides, and posts from the provided deck.",
+     "answer_check": {
+      "claims": 0,
+      "claims_supported": 0,
+      "explanations": 2,
+      "explanations_accepted": 2,
+      "passed": true,
+      "issues": []
+     },
+     "first_token_ms": 1358,
+     "latency_ms": 4157,
+     "model_calls": 1,
+     "input_tokens": 2489,
+     "output_tokens": 37,
+     "wall_ms": 4193,
+     "tools": [],
+     "decision": [],
+     "conversation": "off-topic",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      []
+     ]
+    },
+    {
+     "message": "Write 3 tweets about the results, and then a LinkedIn post.",
+     "artifacts": [
+      {
+       "tool": "write_deliverable",
+       "status": "succeeded",
+       "claims": 3,
+       "claims_supported": 3,
+       "limits": [
+        {
+         "quote": "3 tweets",
+         "measured": "3 items",
+         "met": true
+        },
+        {
+         "quote": "tweets",
+         "measured": "every item within the limit (largest: 177 characters)",
+         "met": true
+        }
+       ]
+      },
+      {
+       "tool": "write_deliverable",
+       "status": "succeeded",
+       "claims": 5,
+       "claims_supported": 5,
+       "limits": []
+      }
+     ],
+     "text": "I will create the 3 tweets about the results first.\n\nI will now write the LinkedIn post.\n\nI have created the 3 tweets and the LinkedIn post highlighting the key results of the paper. Both deliverables have been saved as drafts; let me know if you would like any adjustments to either format!",
+     "first_token_ms": 3030,
+     "latency_ms": 22394,
+     "model_calls": 3,
+     "input_tokens": 8768,
+     "output_tokens": 555,
+     "wall_ms": 22479,
+     "tools": [
+      "write_deliverable",
+      "write_deliverable"
+     ],
+     "decision": [
+      "write_deliverable",
+      "write_deliverable"
+     ],
+     "conversation": "compound-request",
+     "turn": 1,
+     "right_tools": true,
+     "accepted": [
+      [
+       "write_deliverable",
+       "write_deliverable"
+      ]
+     ]
+    }
+   ]
+  },
+  "pipeline_eval_gemini-3.5-flash-lite.json": {
+   "summary": {
+    "turns": 16,
+    "right_tools": 16,
+    "errors": 0,
+    "latency_ms_median": 11152.5,
+    "latency_ms_p95": 17928,
+    "deliverables_saved": 6,
+    "deliverables": 6,
+    "deliverable_claims_supported": "27 of 27",
+    "tool_misses": []
+   },
+   "run_at": "2026-10-14T15:46:43+00:00",
+   "turns": [
+    {
+     "conversation": "question-problem",
+     "turn": 1,
+     "message": "What problem does this paper solve?",
+     "http": 200,
+     "tools": [],
+     "latency_ms": 12528,
+     "right_tools": true,
+     "status": "completed",
+     "drafts": []
+    },
+    {
+     "conversation": "explain-for-student",
+     "turn": 1,
+     "message": "Explain masked language modelling like I'm a high-school student.",
+     "http": 200,
+     "tools": [],
+     "latency_ms": 11324,
+     "right_tools": true,
+     "status": "completed",
+     "drafts": []
+    },
+    {
+     "conversation": "script-edit-undo",
+     "turn": 1,
+     "message": "Write a 90-second script for policymakers explaining why this work matters.",
+     "http": 200,
+     "tools": [
+      "write_deliverable"
+     ],
+     "latency_ms": 17928,
+     "right_tools": true,
+     "status": "completed",
+     "drafts": [
+      {
+       "status": "succeeded",
+       "claims": 5,
+       "claims_supported": 5
+      }
+     ]
+    },
+    {
+     "conversation": "script-edit-undo",
+     "turn": 2,
+     "message": "Make the opening simpler.",
+     "http": 200,
+     "tools": [
+      "edit_draft"
+     ],
+     "latency_ms": 12360,
+     "right_tools": true,
+     "status": "completed",
+     "drafts": []
+    },
+    {
+     "conversation": "script-edit-undo",
+     "turn": 3,
+     "message": "Undo that.",
+     "http": 200,
+     "tools": [
+      "history"
+     ],
+     "latency_ms": 3460,
+     "right_tools": true,
+     "status": "completed",
+     "drafts": []
+    },
+    {
+     "conversation": "tweets-then-explain",
+     "turn": 1,
+     "message": "Create 5 tweet-sized abstracts for a general audience.",
+     "http": 200,
+     "tools": [
+      "write_deliverable"
+     ],
+     "latency_ms": 10282,
+     "right_tools": true,
+     "status": "completed",
+     "drafts": [
+      {
+       "status": "succeeded",
+       "claims": 5,
+       "claims_supported": 5
+      }
+     ]
+    },
+    {
+     "conversation": "tweets-then-explain",
+     "turn": 2,
+     "message": "Explain the second tweet in more detail.",
+     "http": 200,
+     "tools": [],
+     "latency_ms": 12474,
+     "right_tools": true,
+     "status": "completed",
+     "drafts": []
+    },
+    {
+     "conversation": "graduate-talk",
+     "turn": 1,
+     "message": "Create a 5-slide talk for graduate students on the method, with a speaker note for each slide.",
+     "http": 200,
+     "tools": [
+      "write_deliverable"
+     ],
+     "latency_ms": 15458,
+     "right_tools": true,
+     "status": "failed_system",
+     "drafts": []
+    },
+    {
+     "conversation": "locate-bleu",
+     "turn": 1,
+     "message": "Which slide mentions BLEU scores?",
+     "http": 200,
+     "tools": [],
+     "latency_ms": 11980,
+     "right_tools": true,
+     "status": "completed",
+     "drafts": []
+    },
+    {
+     "conversation": "post-then-check",
+     "turn": 1,
+     "message": "Write a short LinkedIn post about this work.",
+     "http": 200,
+     "tools": [
+      "write_deliverable"
+     ],
+     "latency_ms": 10435,
+     "right_tools": true,
+     "status": "completed",
+     "drafts": [
+      {
+       "status": "succeeded",
+       "claims": 3,
+       "claims_supported": 3
+      }
+     ]
+    },
+    {
+     "conversation": "post-then-check",
+     "turn": 2,
+     "message": "Is everything in it supported by the deck?",
+     "http": 200,
+     "tools": [
+      "check_claims"
+     ],
+     "latency_ms": 6885,
+     "right_tools": true,
+     "status": "completed",
+     "drafts": []
+    },
+    {
+     "conversation": "preference-then-summary",
+     "turn": 1,
+     "message": "Remember for everything: my audience is school teachers and keep things short.",
+     "http": 200,
+     "tools": [],
+     "latency_ms": 10247,
+     "right_tools": true,
+     "status": "completed",
+     "drafts": []
+    },
+    {
+     "conversation": "preference-then-summary",
+     "turn": 2,
+     "message": "Write a summary of the results.",
+     "http": 200,
+     "tools": [
+      "write_deliverable"
+     ],
+     "latency_ms": 10981,
+     "right_tools": true,
+     "status": "completed",
+     "drafts": [
+      {
+       "status": "succeeded",
+       "claims": 4,
+       "claims_supported": 4
+      }
+     ]
+    },
+    {
+     "conversation": "edit-without-draft",
+     "turn": 1,
+     "message": "Make #2 shorter.",
+     "http": 200,
+     "tools": [
+      "ask_user"
+     ],
+     "latency_ms": 2952,
+     "right_tools": true,
+     "status": "clarification",
+     "drafts": []
+    },
+    {
+     "conversation": "off-topic",
+     "turn": 1,
+     "message": "What's the weather like today?",
+     "http": 200,
+     "tools": [],
+     "latency_ms": 8695,
+     "right_tools": true,
+     "status": "completed",
+     "drafts": []
+    },
+    {
+     "conversation": "compound-request",
+     "turn": 1,
+     "message": "Write 3 tweets about the results, and then a LinkedIn post.",
+     "http": 200,
+     "tools": [
+      "write_deliverable",
+      "write_deliverable"
+     ],
+     "latency_ms": 20646,
+     "right_tools": true,
+     "status": "completed",
+     "drafts": [
+      {
+       "status": "succeeded",
+       "claims": 4,
+       "claims_supported": 4
+      },
+      {
+       "status": "succeeded",
+       "claims": 6,
+       "claims_supported": 6
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

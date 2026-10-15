@@ -1,0 +1,47 @@
+{
+ "item-01": {
+  "deck": "resnet",
+  "task_id": "script90-grad",
+  "system": "saral-agent"
+ },
+ "item-02": {
+  "deck": "bert",
+  "task_id": "script90-policy",
+  "system": "saral-agent"
+ },
+ "item-03": {
+  "deck": "attention",
+  "task_id": "script90-press",
+  "system": "saral-agent"
+ },
+ "item-04": {
+  "deck": "resnet",
+  "task_id": "script90-press",
+  "system": "saral-agent"
+ },
+ "item-05": {
+  "deck": "attention",
+  "task_id": "script90-policy",
+  "system": "saral-agent"
+ },
+ "item-06": {
+  "deck": "resnet",
+  "task_id": "script90-policy",
+  "system": "saral-agent"
+ },
+ "item-07": {
+  "deck": "bert",
+  "task_id": "script90-grad",
+  "system": "saral-agent"
+ },
+ "item-08": {
+  "deck": "bert",
+  "task_id": "script90-press",
+  "system": "saral-agent"
+ },
+ "item-09": {
+  "deck": "attention",
+  "task_id": "script90-grad",
+  "system": "saral-agent"
+ }
+}

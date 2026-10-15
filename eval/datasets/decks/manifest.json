@@ -1,0 +1,41 @@
+{
+  "description": "Frozen source decks for retrieval and generation evaluation. Hashes pin the exact bytes that were evaluated.",
+  "decks": [
+    {
+      "deck_id": "attention",
+      "path": "eval/datasets/decks/attention.pptx",
+      "sha256": "8438c08227a576b28d299408c12b4eb434d6df431bc7d68c49294d0816f41cda",
+      "paper": "Attention Is All You Need (Vaswani et al., 2017)",
+      "profile": "math-heavy paper; SARAL-generated six-slide deck",
+      "slides": 6,
+      "origin": "SARAL output supplied by the owner; identical to the former docs/slides.pptx (duplicate removed 2026-10-14)"
+    },
+    {
+      "deck_id": "bert",
+      "path": "eval/datasets/decks/bert.pptx",
+      "sha256": "6d6a9b91ffb64cb2cddf97736d04f88c4a5891d1ee1fa1b4a47d7ba71f841a82",
+      "paper": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding (Devlin et al., 2019)",
+      "profile": "text-heavy paper; SARAL-generated six-slide deck",
+      "slides": 6,
+      "origin": "SARAL output supplied by the owner"
+    },
+    {
+      "deck_id": "resnet",
+      "path": "eval/datasets/decks/resnet.pptx",
+      "sha256": "5dc5f233e8cf5f193a0a11eca8b23552852f275e54d1388dbd1857befde76571",
+      "paper": "Deep Residual Learning for Image Recognition (He et al., 2016)",
+      "profile": "table/figure-heavy paper; SARAL-generated six-slide deck. Its 22 embedded pictures are 21 bullet icons and one logo, none a research figure",
+      "slides": 6,
+      "origin": "SARAL output supplied by the owner; identical to the former docs/slides (2).pptx (duplicate removed 2026-10-14)"
+    },
+    {
+      "deck_id": "attention_paper_long",
+      "path": "eval/datasets/decks/local/attention_paper_long.pptx",
+      "sha256": "20a71bec855f864247b416dda2c5ea8939fc508cce58864d2c3bade81673eb2c",
+      "paper": "Attention Is All You Need (Vaswani et al., 2017)",
+      "profile": "long-deck case: the 15 paper pages converted to PPTX, 88 chunks",
+      "slides": 15,
+      "origin": "Paper-to-PPTX conversion kept locally and not redistributed; used only to exercise long-document retrieval"
+    }
+  ]
+}

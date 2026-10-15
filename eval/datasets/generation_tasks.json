@@ -1,0 +1,85 @@
+{
+  "description": "Frozen generation tasks. The system and the human reference writers receive exactly these requests and the same source deck.",
+  "speaking_rate_words_per_minute": 150,
+  "duration_tolerance": 0.15,
+  "core_tasks": [
+    {
+      "task_id": "script90-policy",
+      "request": "Make a 90-second plain-English script for policymakers explaining this research and its practical significance.",
+      "audience": "policymakers",
+      "style": "plain-English",
+      "target_seconds": 90,
+      "word_band": [
+        191,
+        259
+      ],
+      "human_reference": "required"
+    },
+    {
+      "task_id": "script90-grad",
+      "request": "Make a 90-second technical script for graduate students focusing on the methods.",
+      "audience": "graduate students",
+      "style": "technical",
+      "target_seconds": 90,
+      "word_band": [
+        191,
+        259
+      ],
+      "human_reference": "optional"
+    },
+    {
+      "task_id": "script90-press",
+      "request": "Make a 90-second press-release style script for journalists announcing the main result.",
+      "audience": "press",
+      "style": "press release",
+      "target_seconds": 90,
+      "word_band": [
+        191,
+        259
+      ],
+      "human_reference": "optional"
+    }
+  ],
+  "core_decks": [
+    "attention",
+    "bert",
+    "resnet"
+  ],
+  "acceptance_tasks": [
+    {
+      "task_id": "script30-policy",
+      "request": "Make a 30-second plain-English script for policymakers.",
+      "target_seconds": 30,
+      "word_band": [
+        64,
+        86
+      ]
+    },
+    {
+      "task_id": "script5min-grad",
+      "request": "Make a 5-minute technical script for graduate students.",
+      "target_seconds": 300,
+      "word_band": [
+        638,
+        862
+      ]
+    },
+    {
+      "task_id": "talk7-grad",
+      "request": "Create a 7-slide talk for graduate students focusing on methods. Include 3 speaker notes per slide and preserve key equations in inline LaTeX."
+    },
+    {
+      "task_id": "social-mix",
+      "request": "Create 10 tweet-sized abstracts and 5 LinkedIn summaries for a technically curious general audience. Keep every factual claim source-grounded."
+    },
+    {
+      "task_id": "edit-chain",
+      "turns": [
+        "Make a 90-second plain-English script for policymakers explaining this research and its practical significance.",
+        "Make #2 less technical.",
+        "Undo that.",
+        "Redo it."
+      ]
+    }
+  ]
+}

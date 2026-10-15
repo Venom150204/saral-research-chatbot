@@ -1,0 +1,32 @@
+[project]
+name = "saral-research-chatbot"
+version = "0.1.0"
+description = "Evidence-grounded, audience-adaptive research communication prototype"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastembed>=0.7.4,<0.8",
+    "fastapi>=0.143.0",
+    "google-genai==2.29.0",
+    "httpx>=0.28.1,<0.29",
+    "langgraph==1.2.14",
+    "langchain==1.4.3",
+    "langchain-google-genai==4.4.0",
+    "langgraph-checkpoint-postgres>=3.1.2",
+    "psycopg[binary,pool]>=3.3.6",
+    "python-dotenv==1.1.1",
+    "python-pptx==1.0.2",
+    "uvicorn>=0.54.0",
+    "text2num>=3.1.0,<4",
+    "py-rust-stemmers>=0.1.8,<0.2",
+    "pypdf==6.19.0",
+]
+
+[dependency-groups]
+eval = [
+    "ragas==0.4.3",
+    "langchain-community==0.4.1",
+    "rouge-score==0.1.2",
+]
+
+[tool.uv]
+package = false

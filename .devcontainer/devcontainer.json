@@ -1,0 +1,26 @@
+{
+  "name": "SARAL",
+  "image": "mcr.microsoft.com/devcontainers/python:1-3.12-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": { "version": "22" }
+  },
+  "hostRequirements": { "cpus": 2, "memory": "8gb" },
+
+  "secrets": {
+    "GEMINI_API_KEY": { "description": "Gemini API key for the agent, writer and checker." },
+    "SARAL_DATABASE_URL": { "description": "PostgreSQL with pgvector, e.g. Neon's direct connection string (host without -pooler)." }
+  },
+
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  "postStartCommand": "bash .devcontainer/start.sh",
+  "postAttachCommand": "bash .devcontainer/start.sh",
+
+  "forwardPorts": [8000],
+  "portsAttributes": {
+    "8000": { "label": "SARAL", "onAutoForward": "openPreview" }
+  },
+  "customizations": {
+    "codespaces": { "openFiles": ["docs/DEPLOYMENT.md"] },
+    "vscode": { "extensions": ["ms-python.python"] }
+  }
+}
