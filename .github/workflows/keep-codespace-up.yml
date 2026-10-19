@@ -1,30 +1,59 @@
 name: keep-codespace-up
 
-# Runs on GitHub's servers every hour, so it works while the codespace is stopped.
-# If the codespace is shut down (4-hour idle timeout), this starts it again.
-# postStartCommand in .devcontainer/devcontainer.json then restarts SARAL.
+# Runs on GitHub's servers, so it works while the codespace is stopped.
+# 1. Starts the codespace if the 4-hour idle timeout shut it down.
+# 2. Makes port 8000 public again (a restart resets it to private).
+# 3. Opens the public link without logging in; only HTTP 200 counts as up.
+# Scheduled runs are best effort on GitHub, so it runs every 10 minutes.
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "*/10 * * * *"
   workflow_dispatch:
+
+concurrency:
+  group: keep-codespace-up
+  cancel-in-progress: false
 
 jobs:
   start:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
-      - name: Start the codespace if it is shut down
+      - name: Start the codespace and keep the link public
         env:
           GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
           REPO: Venom150204/saral-research-chatbot
         run: |
-          set -euo pipefail
+          set -uo pipefail
           name=$(gh api user/codespaces --paginate -q ".codespaces[] | select(.repository.full_name == \"$REPO\") | .name" | head -n 1)
           if [ -z "$name" ]; then
             echo "No codespace for $REPO"; exit 1
           fi
+          url="https://${name}-8000.app.github.dev/health"
+
           state=$(gh api "user/codespaces/$name" -q .state)
           echo "codespace $name is $state"
           if [ "$state" = "Shutdown" ] || [ "$state" = "Stopped" ]; then
             gh api -X POST "user/codespaces/$name/start" >/dev/null
             echo "start requested"
           fi
+
+          for i in $(seq 1 30); do
+            state=$(gh api "user/codespaces/$name" -q .state)
+            [ "$state" = "Available" ] && break
+            sleep 10
+          done
+          if [ "$state" != "Available" ]; then
+            echo "codespace is $state, not Available"; exit 1
+          fi
+
+          for i in $(seq 1 20); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' -m 10 "$url" || true)
+            if [ "$code" = "200" ]; then
+              echo "public link is up: $url"; exit 0
+            fi
+            echo "attempt $i: link returned ${code:-no response}; setting port 8000 public"
+            gh codespace ports visibility 8000:public -c "$name" || true
+            sleep 15
+          done
+          echo "public link is still not reachable: $url"; exit 1
