@@ -1,0 +1,30 @@
+name: keep-codespace-up
+
+# Runs on GitHub's servers every hour, so it works while the codespace is stopped.
+# If the codespace is shut down (4-hour idle timeout), this starts it again.
+# postStartCommand in .devcontainer/devcontainer.json then restarts SARAL.
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+jobs:
+  start:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start the codespace if it is shut down
+        env:
+          GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
+          REPO: Venom150204/saral-research-chatbot
+        run: |
+          set -euo pipefail
+          name=$(gh api user/codespaces --paginate -q ".codespaces[] | select(.repository.full_name == \"$REPO\") | .name" | head -n 1)
+          if [ -z "$name" ]; then
+            echo "No codespace for $REPO"; exit 1
+          fi
+          state=$(gh api "user/codespaces/$name" -q .state)
+          echo "codespace $name is $state"
+          if [ "$state" = "Shutdown" ] || [ "$state" = "Stopped" ]; then
+            gh api -X POST "user/codespaces/$name/start" >/dev/null
+            echo "start requested"
+          fi
