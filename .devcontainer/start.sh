@@ -12,6 +12,16 @@ if [[ -z "${GEMINI_API_KEY:-}" ]] && sudo -n true 2>/dev/null; then
     esac
   done < <(sudo cat /proc/1/environ 2>/dev/null)
 fi
+secrets_file=/workspaces/.codespaces/shared/.env-secrets
+if [[ -z "${GEMINI_API_KEY:-}" && -r "$secrets_file" ]]; then
+  while IFS='=' read -r key value; do
+    case "$key" in
+      GEMINI_API_KEY|SARAL_DATABASE_URL|DATABASE_URL_UNPOOLED|DATABASE_URL)
+        decoded=$(printf '%s' "$value" | base64 -d 2>/dev/null) && value="$decoded"
+        export "$key=$value" ;;
+    esac
+  done < "$secrets_file"
+fi
 
 if [[ -z "${GEMINI_API_KEY:-}" || -z "${SARAL_DATABASE_URL:-}${DATABASE_URL_UNPOOLED:-}${DATABASE_URL:-}" ]]; then
   echo "SARAL not started: add the GEMINI_API_KEY and SARAL_DATABASE_URL Codespaces secrets"
