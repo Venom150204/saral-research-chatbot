@@ -16,7 +16,7 @@
   "postStartCommand": "bash .devcontainer/start.sh",
   "postAttachCommand": "bash .devcontainer/start.sh",
 
-  "forwardPorts": [8000],
+  "forwardPorts": [8000, 8001],
   "portsAttributes": {
     "8000": { "label": "SARAL", "onAutoForward": "openPreview" }
   },
