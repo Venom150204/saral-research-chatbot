@@ -1,0 +1,7 @@
+{
+  "id": "saral-autostart",
+  "version": "1.0.0",
+  "name": "SARAL autostart",
+  "description": "Starts SARAL whenever the container boots and restarts it if it stops answering. Codespaces ends processes left behind by lifecycle commands, but not ones started by a feature entrypoint.",
+  "entrypoint": "/usr/local/share/saral-autostart.sh"
+}

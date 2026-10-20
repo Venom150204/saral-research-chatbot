@@ -2,7 +2,8 @@
   "name": "SARAL",
   "image": "mcr.microsoft.com/devcontainers/python:1-3.12-bookworm",
   "features": {
-    "ghcr.io/devcontainers/features/node:1": { "version": "22" }
+    "ghcr.io/devcontainers/features/node:1": { "version": "22" },
+    "./saral-autostart": {}
   },
   "hostRequirements": { "cpus": 2, "memory": "8gb" },
 
