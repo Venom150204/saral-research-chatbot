@@ -1,13 +1,14 @@
 name: keep-codespace-up
 
-# Runs on GitHub's servers, so it works while the codespace is stopped.
-# 1. Starts the codespace if the 4-hour idle timeout shut it down.
-# 2. Makes port 8000 public again (a restart resets it to private).
-# 3. Opens the public link without logging in; only HTTP 200 counts as up.
-# Scheduled runs are best effort on GitHub, so it runs every 10 minutes.
+# A watchdog that runs on GitHub's servers for about 5.5 hours, checking the
+# public link every 5 minutes. When the link is down it:
+#   1. starts the codespace if the idle timeout shut it down,
+#   2. starts SARAL inside it over SSH (waking a codespace does not start it),
+#   3. makes port 8000 public and checks the link without logging in.
+# Scheduled runs are often delayed, so each run covers the gap until the next.
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    - cron: "0 * * * *"
   workflow_dispatch:
 
 concurrency:
@@ -15,45 +16,77 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  start:
+  watch:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 355
+    env:
+      GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
+      REPO: Venom150204/saral-research-chatbot
     steps:
-      - name: Start the codespace and keep the link public
-        env:
-          GH_TOKEN: ${{ secrets.CODESPACE_TOKEN }}
-          REPO: Venom150204/saral-research-chatbot
+      - name: Keep the SARAL link up
         run: |
           set -uo pipefail
           name=$(gh api user/codespaces --paginate -q ".codespaces[] | select(.repository.full_name == \"$REPO\") | .name" | head -n 1)
-          if [ -z "$name" ]; then
-            echo "No codespace for $REPO"; exit 1
-          fi
+          if [ -z "$name" ]; then echo "No codespace for $REPO"; exit 1; fi
           url="https://${name}-8000.app.github.dev/health"
+          on_cs() { timeout 120 gh codespace ssh -c "$name" -- "$1"; }
+          public_code() { curl -s -o /dev/null -w '%{http_code}' -m 10 "$url" || true; }
 
-          state=$(gh api "user/codespaces/$name" -q .state)
-          echo "codespace $name is $state"
-          if [ "$state" = "Shutdown" ] || [ "$state" = "Stopped" ]; then
-            gh api -X POST "user/codespaces/$name/start" >/dev/null
-            echo "start requested"
-          fi
-
-          for i in $(seq 1 30); do
+          repair() {
             state=$(gh api "user/codespaces/$name" -q .state)
-            [ "$state" = "Available" ] && break
-            sleep 10
-          done
-          if [ "$state" != "Available" ]; then
-            echo "codespace is $state, not Available"; exit 1
-          fi
-
-          for i in $(seq 1 20); do
-            code=$(curl -s -o /dev/null -w '%{http_code}' -m 10 "$url" || true)
-            if [ "$code" = "200" ]; then
-              echo "public link is up: $url"; exit 0
+            echo "codespace is $state"
+            if [ "$state" = "Shutdown" ] || [ "$state" = "Stopped" ]; then
+              gh api -X POST "user/codespaces/$name/start" >/dev/null && echo "start requested"
             fi
-            echo "attempt $i: link returned ${code:-no response}; setting port 8000 public"
-            gh codespace ports visibility 8000:public -c "$name" || true
-            sleep 15
+            for i in $(seq 1 30); do
+              state=$(gh api "user/codespaces/$name" -q .state)
+              [ "$state" = "Available" ] && break
+              sleep 10
+            done
+            [ "$state" = "Available" ] || { echo "codespace is $state, not Available"; return 1; }
+
+            local_code=""
+            for i in $(seq 1 24); do
+              local_code=$(on_cs 'curl -s -o /dev/null -w "%{http_code}" -m 5 http://localhost:8000/health' 2>/dev/null || true)
+              [ "$local_code" = "200" ] && break
+              if [ "$i" = "1" ] || [ "$i" = "13" ]; then
+                echo "SARAL is not answering inside the codespace; starting it"
+                on_cs 'cd /workspaces/saral-research-chatbot && bash .devcontainer/start.sh' || true
+              fi
+              sleep 10
+            done
+            if [ "$local_code" != "200" ]; then
+              echo "SARAL did not start. Last lines of its log:"
+              on_cs 'tail -n 60 /tmp/saral.log' || true
+              return 1
+            fi
+            echo "SARAL is running inside the codespace"
+
+            for i in $(seq 1 12); do
+              code=$(public_code)
+              [ "$code" = "200" ] && { echo "public link is up: $url"; return 0; }
+              echo "public link returned ${code:-no response}; setting port 8000 public"
+              if [ "$i" = "4" ] || [ "$i" = "8" ]; then
+                gh codespace ports visibility 8000:private -c "$name" || true
+                sleep 3
+              fi
+              gh codespace ports visibility 8000:public -c "$name" || true
+              sleep 10
+            done
+            echo "public link is still down: $url"
+            return 1
+          }
+
+          failures=0
+          end=$(( $(date +%s) + 330 * 60 ))
+          while [ "$(date +%s)" -lt "$end" ]; do
+            code=$(public_code)
+            if [ "$code" = "200" ]; then
+              echo "$(date -u +%H:%M) link up"
+            else
+              echo "$(date -u +%H:%M) link returned ${code:-no response}; repairing"
+              if repair; then failures=0; else failures=$((failures + 1)); fi
+            fi
+            sleep 300
           done
-          echo "public link is still not reachable: $url"; exit 1
+          [ "$failures" -eq 0 ]

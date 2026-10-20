@@ -3,6 +3,16 @@ set -uo pipefail
 export PATH="$HOME/.local/bin:$PATH"
 cd "$(dirname "$0")/.."
 
+# SSH sessions (used by the keep-codespace-up workflow) do not inherit the
+# Codespaces secrets, so read them from the container's own environment.
+if [[ -z "${GEMINI_API_KEY:-}" ]] && sudo -n true 2>/dev/null; then
+  while IFS= read -r -d '' kv; do
+    case "$kv" in
+      GEMINI_API_KEY=*|SARAL_DATABASE_URL=*|DATABASE_URL_UNPOOLED=*|DATABASE_URL=*) export "$kv" ;;
+    esac
+  done < <(sudo cat /proc/1/environ 2>/dev/null)
+fi
+
 if [[ -z "${GEMINI_API_KEY:-}" || -z "${SARAL_DATABASE_URL:-}${DATABASE_URL_UNPOOLED:-}${DATABASE_URL:-}" ]]; then
   echo "SARAL not started: add the GEMINI_API_KEY and SARAL_DATABASE_URL Codespaces secrets"
   echo "(github.com > Settings > Codespaces > Secrets), then rebuild or restart the codespace."
